@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VELOURA | Complete Fashion Boutique App</title>
+    <style>
+        /* ================= ANALOGOUS PALETTE & HIGH-CONTRAST TYPOGRAPHY =================
+           Analogous Scheme: Deep Crimson Rose (#9e2a47) -> Terracotta (#c8553d) -> Warm Peach (#e07a5f)
+           Text: Deep Espresso Ink (#241418) on Warm Ivory (#fffaf8)
+        */
+        :root {
+            --bg-main: #fffaf8;
+            --bg-surface: #ffffff;
+            --bg-tint: #fceee9;
+            --primary: #9e2a47;
+            --primary-hover: #7d1e36;
+            --secondary: #c8553d;
+            --accent: #e07a5f;
+            --text-dark: #241418;
+            --text-muted: #5e4349;
+            --border-color: #eed6d0;
+            --success: #2a7b5c;
+            --shadow: 0 8px 24px rgba(158, 42, 71, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-dark);
+            line-height: 1.5;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ================= 1. LOGIN PAGE ================= */
+        #loginView {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 55%, var(--accent) 100%);
+            padding: 1.5rem;
+        }
+
+        .login-card {
+            background: var(--bg-surface);
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem 2rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 45px rgba(36, 20, 24, 0.25);
+        }
+
+        .brand-title {
+            font-size: 2rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .brand-subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.8rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.1rem;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 0.88rem;
+            margin-bottom: 0.35rem;
+            color: var(--text-dark);
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            background: #fff;
+            transition: border-color 0.25s;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* ================= BUTTONS ================= */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            padding: 0.75rem 1.4rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary { background: var(--primary); color: #ffffff; }
+        .btn-primary:hover { background: var(--primary-hover); transform: translateY(-1px); }
+
+        .btn-secondary { background: var(--bg-tint); color: var(--primary); border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background: #f8ded6; }
+
+        .btn-buy { background: var(--secondary); color: #ffffff; }
+        .btn-buy:hover { background: #b04630; }
+
+        /* ================= APP HEADER & NAVIGATION ================= */
+        #appShell {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            padding-bottom: 72px;
+        }
+
+        .promo-strip {
+            background: var(--text-dark);
+            color: #fceee9;
+            text-align: center;
+            font-size: 0.82rem;
+            padding: 0.4rem 1rem;
+            letter-spacing: 0.4px;
+        }
+
+        header {
+            background: var(--bg-surface);
+            border-bottom: 1.5px solid var(--border-color);
+            padding: 0.85rem 4%;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .header-logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        .search-bar {
+            flex: 1;
+            min-width: 220px;
+            max-width: 380px;
+            display: flex;
+            align-items: center;
+            background: var(--bg-tint);
+            border: 1.5px solid var(--border-color);
+            border-radius: 30px;
+            padding: 0.3rem 1rem;
+        }
+
+        .search-bar input {
+            border: none;
+            background: transparent;
+            width: 100%;
+            padding: 0.35rem;
+            font-size: 0.92rem;
+            color: var(--text-dark);
+        }
+
+        .search-bar input:focus { outline: none; }
+
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-pill {
+            background: transparent;
+            border: none;
+            padding: 0.5rem 0.85rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-pill:hover, .nav-pill.active {
+            background: var(--bg-tint);
+            color: var(--primary);
+        }
+
+        .badge {
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.72rem;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 3px;
+        }
+
+        /* ================= VIEWS & LAYOUT ================= */
+        main {
+            flex: 1;
+            max-width: 1220px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 1.8rem 4%;
+        }
+
+        .view {
+            display: none;
+            animation: slideUp 0.28s ease;
+        }
+
+        .view.active { display: block; }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-heading { font-size: 1.55rem; margin-bottom: 0.25rem; color: var(--text-dark); }
+        .section-sub { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.4rem; }
+
+        .hero-banner {
+            background: linear-gradient(120deg, var(--primary), var(--secondary));
+            color: #fff;
+            border-radius: 18px;
+            padding: 2rem;
+            margin-bottom: 1.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+        }
+
+        /* Toolbar: Categories + Sort */
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.3rem;
+        }
+
+        .chip {
+            padding: 0.45rem 1rem;
+            border-radius: 25px;
+            border: 1.5px solid var(--border-color);
+            background: var(--bg-surface);
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .chip.active, .chip:hover {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .sort-select {
+            padding: 0.5rem 0.9rem;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background: #fff;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        /* ================= PRODUCT CARDS ================= */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .product-card {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: transform 0.25s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .product-card:hover { transform: translateY(-4px); }
+
+        .wish-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #fff;
+            border: 1px solid var(--border-color);
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .bestseller-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: var(--primary);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .product-art {
+            height: 185px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4.8rem;
+            cursor: pointer;
+        }
+
+        .product-info {
+            padding: 1.1rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-cat {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.7px;
+        }
+
+        .product-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin: 0.2rem 0;
+            cursor: pointer;
+        }
+
+        .product-title:hover { color: var(--primary); }
+
+        .rating {
+            font-size: 0.84rem;
+            color: #b86b11;
+            font-weight: 600;
+            margin-bottom: 0.6rem;
+        }
+
+        .price-row {
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--bg-tint);
+        }
+
+        .price { font-size: 1.15rem; font-weight: 800; color: var(--text-dark); }
+
+        /* ================= DETAIL VIEW + REVIEWS + RELEVANT ================= */
+        .detail-layout {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 18px;
+            padding: 1.8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2.2rem;
+        }
+
+        .detail-visual {
+            border-radius: 14px;
+            min-height: 290px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 7.5rem;
+        }
+
+        .size-selector {
+            display: flex;
+            gap: 0.5rem;
+            margin: 0.7rem 0 1.2rem;
+            align-items: center;
+        }
+
+        .size-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            border: 1.5px solid var(--border-color);
+            background: #fff;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .size-btn.selected {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+        }
+
+        .review-box {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .review-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--bg-tint);
+        }
+
+        .review-item:last-child { border-bottom: none; }
+
+        /* ================= PANELS (CART / BUY / PAYMENT / CUSTOM / OFFERS / PROFILE) ================= */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 1.8rem;
+        }
+
+        @media (max-width: 820px) {
+            .two-col { grid-template-columns: 1fr; }
+            .desktop-nav { display: none; }
+        }
+
+        .panel {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .cart-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            padding: 0.9rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .cart-item:last-child { border-bottom: none; }
+
+        .qty-controls { display: flex; align-items: center; gap: 0.5rem; }
+        .qty-btn {
+            width: 30px;
+            height: 30px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-tint);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .summary-line { display: flex; justify-content: space-between; margin-bottom: 0.7rem; font-size: 0.95rem; }
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.2rem;
+            font-weight: 800;
+            padding-top: 0.8rem;
+            border-top: 2px solid var(--border-color);
+            margin-bottom: 1.1rem;
+        }
+
+        .coupon-row {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .coupon-row input {
+            flex: 1;
+            padding: 0.6rem 0.8rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 8px;
+            text-transform: uppercase;
+        }
+
+        .pay-options {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.6rem;
+            margin-bottom: 1.4rem;
+        }
+
+        .pay-tab {
+            padding: 0.75rem;
+            border: 1.5px solid var(--border-color);
+            border-radius: 10px;
+            background: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .pay-tab.active {
+            background: var(--bg-tint);
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        /* ================= TRACK ORDER TIMELINE ================= */
+        .order-card {
+            background: var(--bg-surface);
+            border: 1.5px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.3rem;
+        }
+
+        .timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1.4rem;
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 14px;
+            left: 6%;
+            right: 6%;
+            height: 4px;
+            background: var(--border-color);
+            z-index: 1;
+        }
+
+        .step { position: relative; z-index: 2; text-align: center; width: 25%; }
+        .step-dot {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--border-color);
+            color: var(--text-muted);
+            margin: 0 auto 0.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+        }
+
+        .step.done .step-dot { background: var(--success); color: #fff; }
+        .step-label { font-size: 0.82rem; font-weight: 600; }
+
+        /* ================= OFFERS & COUPONS PAGE ================= */
+        .offer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.4rem;
+        }
+
+        .offer-card {
+            background: var(--bg-surface);
+            border: 2px dashed var(--secondary);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .code-pill {
+            display: inline-block;
+            background: var(--bg-tint);
+            color: var(--primary);
+            font-weight: 800;
+            padding: 0.4rem 0.9rem;
+            border-radius: 8px;
+            margin: 0.8rem 0;
+            letter-spacing: 1px;
+        }
+
+        /* ================= SIZE GUIDE MODAL ================= */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(36, 20, 24, 0.55);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .modal-box {
+            background: #fff;
+            border-radius: 16px;
+            padding: 1.8rem;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 0.6rem;
+            text-align: center;
+        }
+
+        th { background: var(--bg-tint); color: var(--primary); }
+
+        /* ================= MOBILE APP BOTTOM BAR ================= */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--bg-surface);
+            border-top: 1.5px solid var(--border-color);
+            padding: 0.45rem 0;
+            justify-content: space-around;
+            z-index: 200;
+        }
+
+        @media (max-width: 820px) { .bottom-nav { display: flex; } }
+
+        .bottom-btn {
+            background: none;
+            border: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+
+        .bottom-btn.active { color: var(--primary); }
+
+        #toast {
+            position: fixed;
+            bottom: 80px;
+            right: 20px;
+            background: var(--text-dark);
+            color: #fff;
+            padding: 0.8rem 1.3rem;
+            border-radius: 10px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            display: none;
+            z-index: 999;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==================== 1. LOGIN PAGE ==================== -->
+    <section id="loginView">
+        <div class="login-card">
+            <div class="brand-title">VELOURA</div>
+            <div class="brand-subtitle">Sign in to access your fashion boutique app</div>
+
+            <form onsubmit="handleLogin(event)">
+                <div class="input-group">
+                    <label for="loginName">Full Name</label>
+                    <input type="text" id="loginName" placeholder="e.g., Sai Thapasya B" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="loginPhone">Phone Number</label>
+                    <input type="tel" id="loginPhone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+                </div>
+
+                <div class="input-group">
+                    <label for="loginEmail">Email ID</label>
+                    <input type="email" id="loginEmail" placeholder="you@example.com" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; margin-top:0.5rem;">
+                    Enter Boutique &rarr;
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ==================== MAIN APP SHELL ==================== -->
+    <div id="appShell">
+        <div class="promo-strip">
+            ✨ Use code <strong>VELOURA20</strong> for 20% OFF on orders above ₹2,000 &bull; Free Express Delivery
+        </div>
+
+        <header>
+            <div class="header-logo" onclick="navigate('homeView')">VELOURA</div>
+
+            <div class="search-bar">
+                <span>🔍</span>
+                <input type="text" id="searchInput" placeholder="Search dresses (Silk, Saree, Gown, Linen...)" oninput="handleSearch(this.value)">
+            </div>
+
+            <nav class="desktop-nav">
+                <button class="nav-pill active" id="nav-homeView" onclick="navigate('homeView')">Top Dresses</button>
+                <button class="nav-pill" id="nav-customView" onclick="navigate('customView')">Custom Tailor</button>
+                <button class="nav-pill" id="nav-offersView" onclick="navigate('offersView')">Offers</button>
+                <button class="nav-pill" id="nav-wishlistView" onclick="navigate('wishlistView')">Wishlist <span class="badge" id="wishCount">0</span></button>
+                <button class="nav-pill" id="nav-cartView" onclick="navigate('cartView')">Cart <span class="badge" id="cartCount">0</span></button>
+                <button class="nav-pill" id="nav-trackView" onclick="navigate('trackView')">Track Order</button>
+                <button class="nav-pill" id="nav-profileView" onclick="navigate('profileView')">Profile</button>
+            </nav>
+        </header>
+
+        <main>
+            <!-- ==================== 2. HOME / TOP PURCHASED DRESSES ==================== -->
+            <section id="homeView" class="view active">
+                <div class="hero-banner">
+                    <div>
+                        <h1 id="welcomeHeading">Welcome to VELOURA</h1>
+                        <p>Explore our top-purchased dresses crafted in warm analogous rose &amp; terracotta palettes.</p>
+                    </div>
+                    <div style="display:flex; gap:0.7rem; flex-wrap:wrap;">
+                        <button class="btn" style="background:#fff; color:var(--primary);" onclick="navigate('customView')">✂️ Custom Design</button>
+                        <button class="btn" style="background:rgba(255,255,255,0.2); color:#fff;" onclick="navigate('offersView')">🎟️ View Coupons</button>
+                    </div>
+                </div>
+
+                <div class="toolbar">
+                    <div class="filter-row">
+                        <button class="chip active" onclick="filterCategory('All', this)">All Top Dresses</button>
+                        <button class="chip" onclick="filterCategory('Evening Wear', this)">Evening Wear</button>
+                        <button class="chip" onclick="filterCategory('Ethnic Couture', this)">Ethnic Couture</button>
+                        <button class="chip" onclick="filterCategory('Summer Casual', this)">Summer Casual</button>
+                        <button class="chip" onclick="filterCategory('Party Wear', this)">Party Wear</button>
+                    </div>
+
+                    <select class="sort-select" onchange="sortProducts(this.value)">
+                        <option value="popular">Sort: Most Purchased</option>
+                        <option value="low">Price: Low to High</option>
+                        <option value="high">Price: High to Low</option>
+                    </select>
+                </div>
+
+                <h2 class="section-heading" id="catalogTitle">Top Purchased Dresses</h2>
+                <p class="section-sub">Click any dress to see full details, customer reviews, and relevant matching styles.</p>
+
+                <div class="product-grid" id="productGrid"></div>
+            </section>
+
+            <!-- ==================== 3. DRESS DETAIL + RELEVANT DRESSES + REVIEWS ==================== -->
+            <section id="detailView" class="view">
+                <button class="btn btn-secondary" style="margin-bottom:1.2rem;" onclick="navigate('homeView')">&larr; Back to Top Dresses</button>
+                <div id="detailContainer"></div>
+
+                <!-- Customer Reviews Section -->
+                <div class="review-box" id="reviewSection"></div>
+
+                <h2 class="section-heading">Relevant Dresses You May Like</h2>
+                <p class="section-sub">Handpicked matching silhouettes from the same collection.</p>
+                <div class="product-grid" id="relevantGrid"></div>
+            </section>
+
+            <!-- ==================== 4. CUSTOM TAILOR STUDIO PAGE ==================== -->
+            <section id="customView" class="view">
+                <h2 class="section-heading">Custom Couture &amp; Tailor Studio</h2>
+                <p class="section-sub">Design your own dress from scratch with custom measurements and fabric choices.</p>
+
+                <div class="two-col">
+                    <form class="panel" onsubmit="submitCustomDress(event)">
+                        <div class="input-group">
+                            <label>Dress Silhouette</label>
+                            <select id="customStyle">
+                                <option>Floor-Length Evening Gown (₹3,499)</option>
+                                <option>Handwoven Silk Lehenga Set (₹4,299)</option>
+                                <option>Tailored A-Line Midi Dress (₹1,999)</option>
+                                <option>Structured Corset Party Dress (₹2,799)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Analogous Shade &amp; Fabric</label>
+                            <select id="customFabric">
+                                <option>Crimson Rose — Pure Mulberry Silk</option>
+                                <option>Terracotta Coral — Organic Linen</option>
+                                <option>Warm Sunset Peach — Georgette &amp; Organza</option>
+                                <option>Deep Burgundy — Royal Velvet</option>
+                            </select>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:0.8rem;">
+                            <div class="input-group"><label>Bust (in)</label><input type="number" placeholder="34" required></div>
+                            <div class="input-group"><label>Waist (in)</label><input type="number" placeholder="28" required></div>
+                            <div class="input-group"><label>Length (in)</label><input type="number" placeholder="48" required></div>
+                        </div>
+                        <div class="input-group">
+                            <label>Special Styling Notes</label>
+                            <textarea rows="3" placeholder="e.g., Sweetheart neckline, concealed side zip, flutter sleeves..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">Add Custom Design to Cart</button>
+                    </form>
+
+                    <div class="panel" style="background:var(--bg-tint);">
+                        <h3 style="margin-bottom:0.8rem; color:var(--primary);">How Bespoke Tailoring Works</h3>
+                        <p style="margin-bottom:1rem; font-size:0.93rem;">1. <strong>Select Silhouette &amp; Fabric:</strong> Choose from our curated warm-toned luxury textiles.</p>
+                        <p style="margin-bottom:1rem; font-size:0.93rem;">2. <strong>Enter Measurements:</strong> Our master pattern-makers draft a custom fit exclusively for you.</p>
+                        <p style="margin-bottom:1rem; font-size:0.93rem;">3. <strong>4-Day Express Dispatch:</strong> Track your stitched outfit live on the Track Order page.</p>
+                        <button class="btn btn-secondary" onclick="openSizeGuide()">📏 Open Standard Size Chart</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 5. OFFERS & COUPONS PAGE ==================== -->
+            <section id="offersView" class="view">
+                <h2 class="section-heading">Exclusive Boutique Offers</h2>
+                <p class="section-sub">Copy any promo code below and apply it inside your Shopping Cart.</p>
+
+                <div class="offer-grid">
+                    <div class="offer-card">
+                        <h3>Festive Rose Privilege</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem;">Get flat 20% off on orders above ₹2,000.</p>
+                        <div class="code-pill">VELOURA20</div><br>
+                        <button class="btn btn-primary" onclick="copyCode('VELOURA20')">Copy Code</button>
+                    </div>
+                    <div class="offer-card">
+                        <h3>First Boutique Order</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem;">Instant ₹300 off on your first dress purchase.</p>
+                        <div class="code-pill">WELCOME300</div><br>
+                        <button class="btn btn-primary" onclick="copyCode('WELCOME300')">Copy Code</button>
+                    </div>
+                    <div class="offer-card">
+                        <h3>Ethnic Couture Special</h3>
+                        <p style="color:var(--text-muted); font-size:0.9rem;">Flat 15% off on Sarees &amp; Anarkali sets.</p>
+                        <div class="code-pill">ETHNIC15</div><br>
+                        <button class="btn btn-primary" onclick="copyCode('ETHNIC15')">Copy Code</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ==================== 6. WISHLIST PAGE ==================== -->
+            <section id="wishlistView" class="view">
+                <h2 class="section-heading">Your Saved Wishlist</h2>
+                <p class="section-sub">Dresses you bookmarked for later.</p>
+                <div class="product-grid" id="wishlistGrid"></div>
+            </section>
+
+            <!-- ==================== 7. CART PAGE (WITH COUPON ENGINE) ==================== -->
+            <section id="cartView" class="view">
+                <h2 class="section-heading">Your Shopping Cart</h2>
+                <p class="section-sub">Apply promo codes, adjust quantities, or proceed to checkout.</p>
+                <div id="cartContent"></div>
+            </section>
+
+            <!-- ==================== 8. BUY / CHECKOUT PAGE ==================== -->
+            <section id="buyView" class="view">
+                <button class="btn btn-secondary" style="margin-bottom:1.2rem;" onclick="navigate('cartView')">&larr; Back to Cart</button>
+                <h2 class="section-heading">Checkout &amp; Delivery Address</h2>
+                <p class="section-sub">Verify your delivery details before proceeding to payment.</p>
+
+                <div class="two-col">
+                    <form class="panel" onsubmit="goToPayment(event)">
+                        <div class="input-group">
+                            <label>Recipient Full Name</label>
+                            <input type="text" id="shipName" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Contact Phone Number</label>
+                            <input type="tel" id="shipPhone" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Street Address &amp; House No.</label>
+                            <input type="text" id="shipAddress" placeholder="e.g., 42 Rose Garden Avenue" required>
+                        </div>
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                            <div class="input-group"><label>City</label><input type="text" id="shipCity" placeholder="Coimbatore" required></div>
+                            <div class="input-group"><label>PIN Code</label><input type="text" id="shipPin" placeholder="641008" required></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;">Proceed to Payment &rarr;</button>
+                    </form>
+
+                    <div class="panel" id="buySummaryPanel"></div>
+                </div>
+            </section>
+
+            <!-- ==================== 9. PAYMENT PAGE ==================== -->
+            <section id="paymentView" class="view">
+                <button class="btn btn-secondary" style="margin-bottom:1.2rem;" onclick="navigate('buyView')">&larr; Back to Address</button>
+                <h2 class="section-heading">Secure Payment</h2>
+                <p class="section-sub">Select your payment mode to complete your purchase.</p>
+
+                <div class="two-col">
+                    <div class="panel">
+                        <div class="pay-options">
+                            <button type="button" class="pay-tab active" onclick="selectPayMethod('UPI', this)">UPI / QR</button>
+                            <button type="button" class="pay-tab" onclick="selectPayMethod('Card', this)">Credit / Debit Card</button>
+                            <button type="button" class="pay-tab" onclick="selectPayMethod('COD', this)">Cash on Delivery</button>
+                        </div>
+
+                        <form onsubmit="completePayment(event)">
+                            <div id="payFields">
+                                <div class="input-group">
+                                    <label>Enter UPI ID</label>
+                                    <input type="text" placeholder="username@okaxis" required>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="width:100%; font-size:1.05rem;">
+                                Pay &amp; Place Order
+                            </button>
+                        </form>
+                    </div>
+
+                    <div class="panel" id="paymentSummaryPanel"></div>
+                </div>
+            </section>
+
+            <!-- ==================== 10. TRACK ORDER PAGE ==================== -->
+            <section id="trackView" class="view">
+                <h2 class="section-heading">Track Your Orders</h2>
+                <p class="section-sub">Real-time shipment status for all your VELOURA orders.</p>
+
+                <div class="panel" style="margin-bottom:1.5rem; display:flex; gap:0.8rem; flex-wrap:wrap;">
+                    <input type="text" id="trackSearchInput" placeholder="Enter Order ID (e.g., VLR-4091)" style="flex:1; padding:0.75rem; border:1.5px solid var(--border-color); border-radius:10px;">
+                    <button class="btn btn-primary" onclick="filterOrders()">Track ID</button>
+                    <button class="btn btn-secondary" onclick="renderOrders()">Show All</button>
+                </div>
+
+                <div id="ordersList"></div>
+            </section>
+
+            <!-- ==================== 11. USER PROFILE PAGE ==================== -->
+            <section id="profileView" class="view">
+                <h2 class="section-heading">My Boutique Profile</h2>
+                <p class="section-sub">Manage your account details and view loyalty rewards.</p>
+
+                <div class="two-col">
+                    <div class="panel" id="profileDetailsPanel"></div>
+                    <div class="panel" style="background:var(--bg-tint);">
+                        <h3 style="color:var(--primary); margin-bottom:0.5rem;">VELOURA Loyalty Tier: Rose Gold</h3>
+                        <p style="font-size:0.92rem; margin-bottom:1rem;">You earn 10 Style Points for every ₹100 spent. Redeem points for complimentary express tailoring.</p>
+                        <button class="btn btn-secondary" onclick="logout()">Sign Out</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Mobile App Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="bottom-btn active" onclick="navigate('homeView')"><span>👗</span>Shop</button>
+            <button class="bottom-btn" onclick="navigate('customView')"><span>✂️</span>Tailor</button>
+            <button class="bottom-btn" onclick="navigate('cartView')"><span>🛍️</span>Cart</button>
+            <button class="bottom-btn" onclick="navigate('trackView')"><span>📦</span>Track</button>
+            <button class="bottom-btn" onclick="navigate('profileView')"><span>👤</span>Profile</button>
+        </nav>
+    </div>
+
+    <!-- Size Guide Modal -->
+    <div class="modal-backdrop" id="sizeModal" onclick="closeSizeGuide(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+                <h3>VELOURA Size Chart (Inches)</h3>
+                <button class="qty-btn" onclick="document.getElementById('sizeModal').style.display='none'">✕</button>
+            </div>
+            <table>
+                <tr><th>Size</th><th>Bust</th><th>Waist</th><th>Hip</th></tr>
+                <tr><td>XS</td><td>32"</td><td>26"</td><td>35"</td></tr>
+                <tr><td>S</td><td>34"</td><td>28"</td><td>37"</td></tr>
+                <tr><td>M</td><td>36"</td><td>30"</td><td>39"</td></tr>
+                <tr><td>L</td><td>38"</td><td>32"</td><td>41"</td></tr>
+                <tr><td>XL</td><td>40"</td><td>34"</td><td>43"</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+        /* ================= DRESS CATALOG DATA ================= */
+        const DRESSES = [
+            {
+                id: 1,
+                name: "Crimson Velvet Evening Gown",
+                category: "Evening Wear",
+                price: 2499,
+                sold: 1400,
+                rating: "4.9 ★ (1.4k sold)",
+                bestseller: true,
+                icon: "👗",
+                bg: "#f9dce2",
+                fabric: "Pure Mulberry Velvet with Silk Lining",
+                desc: "Floor-length draped evening gown in rich crimson rose with a flattering sweetheart neckline.",
+                reviews: [
+                    { user: "Ananya R.", text: "The crimson shade looks regal and the velvet drape feels super luxurious!" },
+                    { user: "Meera K.", text: "True to size. Wore it to a reception and received endless compliments." }
+                ]
+            },
+            {
+                id: 2,
+                name: "Rosewood Silk Satin Slip",
+                category: "Evening Wear",
+                price: 1899,
+                sold: 980,
+                rating: "4.8 ★ (980 sold)",
+                bestseller: true,
+                icon: "👗",
+                bg: "#fce4dc",
+                fabric: "100% Bias-Cut Satin Silk",
+                desc: "Minimalist rosewood slip dress designed for effortless movement at dinner galas.",
+                reviews: [
+                    { user: "Divya S.", text: "Lightweight, silky smooth, and very flattering cut." }
+                ]
+            },
+            {
+                id: 3,
+                name: "Terracotta Banarasi Silk Saree",
+                category: "Ethnic Couture",
+                price: 3299,
+                sold: 2100,
+                rating: "4.9 ★ (2.1k sold)",
+                bestseller: true,
+                icon: "🥻",
+                bg: "#fae0d8",
+                fabric: "Handwoven Katan Silk with Antique Zari",
+                desc: "Traditional terracotta weave paired with a matching unstitched brocade blouse piece.",
+                reviews: [
+                    { user: "Kavitha B.", text: "Authentic zari work and rich warm terracotta tone." }
+                ]
+            },
+            {
+                id: 4,
+                name: "Blush Pink Anarkali Suit Set",
+                category: "Ethnic Couture",
+                price: 2799,
+                sold: 860,
+                rating: "4.7 ★ (860 sold)",
+                bestseller: false,
+                icon: "🥻",
+                bg: "#f9dde6",
+                fabric: "Georgette & Organza Dupatta",
+                desc: "Flared ankle-length Anarkali adorned with delicate pearl and thread embroidery.",
+                reviews: [
+                    { user: "Nethra P.", text: "The organza dupatta elevates the entire outfit." }
+                ]
+            },
+            {
+                id: 5,
+                name: "Sunset Peach Linen Midi",
+                category: "Summer Casual",
+                price: 1299,
+                sold: 1700,
+                rating: "4.8 ★ (1.7k sold)",
+                bestseller: true,
+                icon: "👚",
+                bg: "#fde8df",
+                fabric: "Breathable Organic Cotton-Linen",
+                desc: "Button-down A-line summer midi dress with deep side pockets and wooden buttons.",
+                reviews: [
+                    { user: "Yazhini M.", text: "So breathable for warm afternoons, and it has deep pockets!" }
+                ]
+            },
+            {
+                id: 6,
+                name: "Coral Floral Sundress",
+                category: "Summer Casual",
+                price: 1149,
+                sold: 740,
+                rating: "4.6 ★ (740 sold)",
+                bestseller: false,
+                icon: "👗",
+                bg: "#fce2dc",
+                fabric: "Soft Mulmul Cotton",
+                desc: "Breezy tiered sundress featuring hand-blocked coral botanical prints.",
+                reviews: [
+                    { user: "Shamri V.", text: "Softest cotton fabric and cheerful coral print." }
+                ]
+            },
+            {
+                id: 7,
+                name: "Burgundy Sequin Cocktail Dress",
+                category: "Party Wear",
+                price: 2199,
+                sold: 1200,
+                rating: "4.9 ★ (1.2k sold)",
+                bestseller: true,
+                icon: "👘",
+                bg: "#f5d7df",
+                fabric: "Micro-Sequin Mesh with Satin Base",
+                desc: "Fitted wrap-front party dress that shimmers softly under evening lights.",
+                reviews: [
+                    { user: "Riya T.", text: "Soft inner lining so the sequins never scratch!" }
+                ]
+            },
+            {
+                id: 8,
+                name: "Maroon Off-Shoulder Bodycon",
+                category: "Party Wear",
+                price: 1699,
+                sold: 650,
+                rating: "4.7 ★ (650 sold)",
+                bestseller: false,
+                icon: "👗",
+                bg: "#f7dce1",
+                fabric: "Stretch Crepe Knit",
+                desc: "Sculpted off-shoulder silhouette engineered for comfort and confident styling.",
+                reviews: [
+                    { user: "Sneha G.", text: "Great stretch and holds its shape nicely." }
+                ]
+            }
+        ];
+
+        /* ================= APP STATE ================= */
+        let currentUser = { name: "", phone: "", email: "" };
+        let displayedDresses = [...DRESSES];
+        let cart = [];
+        let wishlist = [];
+        let selectedSize = "M";
+        let appliedDiscount = 0;
+        let appliedCode = "";
+        let checkoutItems = [];
+        let shippingDetails = {};
+        let selectedPayment = "UPI";
+        let orders = [
+            {
+                id: "VLR-4091",
+                date: "14 Nov 2026",
+                items: "Terracotta Banarasi Silk Saree (Size: Free)",
+                total: 3299,
+                statusStep: 3,
+                address: "Coimbatore, Tamil Nadu"
+            }
+        ];
+
+        /* ================= LOGIN & PROFILE ================= */
+        function handleLogin(e) {
+            e.preventDefault();
+            currentUser.name = document.getElementById("loginName").value.trim();
+            currentUser.phone = document.getElementById("loginPhone").value.trim();
+            currentUser.email = document.getElementById("loginEmail").value.trim();
+
+            document.getElementById("welcomeHeading").textContent = `Welcome, ${currentUser.name}`;
+            document.getElementById("shipName").value = currentUser.name;
+            document.getElementById("shipPhone").value = currentUser.phone;
+
+            document.getElementById("loginView").style.display = "none";
+            document.getElementById("appShell").style.display = "flex";
+
+            renderProducts(displayedDresses);
+            renderProfile();
+            showToast(`Welcome to VELOURA, ${currentUser.name}!`);
+        }
+
+        function logout() {
+            document.getElementById("appShell").style.display = "none";
+            document.getElementById("loginView").style.display = "flex";
+        }
+
+        function renderProfile() {
+            document.getElementById("profileDetailsPanel").innerHTML = `
+                <h3 style="margin-bottom:1rem;">Account Information</h3>
+                <p style="margin-bottom:0.6rem;"><strong>Full Name:</strong> ${currentUser.name}</p>
+                <p style="margin-bottom:0.6rem;"><strong>Phone Number:</strong> ${currentUser.phone}</p>
+                <p style="margin-bottom:0.6rem;"><strong>Email ID:</strong> ${currentUser.email}</p>
+                <p style="margin-bottom:0.6rem;"><strong>Total Orders Placed:</strong> ${orders.length}</p>
+            `;
+        }
+
+        /* ================= NAVIGATION ================= */
+        function navigate(viewId) {
+            document.querySelectorAll(".view").forEach(v => v.classList.remove("active"));
+            document.getElementById(viewId).classList.add("active");
+
+            document.querySelectorAll(".nav-pill").forEach(btn => btn.classList.remove("active"));
+            const activePill = document.getElementById("nav-" + viewId);
+            if (activePill) activePill.classList.add("active");
+
+            window.scrollTo({ top: 0, behavior: "smooth" });
+
+            if (viewId === "cartView") renderCart();
+            if (viewId === "wishlistView") renderWishlist();
+            if (viewId === "trackView") renderOrders();
+            if (viewId === "profileView") renderProfile();
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById("toast");
+            toast.textContent = msg;
+            toast.style.display = "block";
+            clearTimeout(window.toastTimer);
+            window.toastTimer = setTimeout(() => { toast.style.display = "none"; }, 2600);
+        }
+
+        /* ================= CATALOG, SEARCH, FILTER & SORT ================= */
+        function renderProducts(list, containerId = "productGrid") {
+            const grid = document.getElementById(containerId);
+            if (list.length === 0) {
+                grid.innerHTML = `<p style="color:var(--text-muted); grid-column:1/-1;">No matching dresses found.</p>`;
+                return;
+            }
+
+            grid.innerHTML = list.map(d => {
+                const isWished = wishlist.includes(d.id);
+                return `
+                    <div class="product-card">
+                        ${d.bestseller ? `<span class="bestseller-tag">Top Purchased</span>` : ""}
+                        <button class="wish-btn" onclick="toggleWishlist(${d.id})" title="Save to Wishlist">
+                            ${isWished ? "❤️" : "🤍"}
+                        </button>
+                        <div class="product-art" style="background:${d.bg};" onclick="openDressDetail(${d.id})">
+                            ${d.icon}
+                        </div>
+                        <div class="product-info">
+                            <span class="product-cat">${d.category}</span>
+                            <div class="product-title" onclick="openDressDetail(${d.id})">${d.name}</div>
+                            <div class="rating">${d.rating}</div>
+                            <div class="price-row">
+                                <span class="price">₹${d.price.toLocaleString()}</span>
+                                <button class="btn btn-secondary" style="padding:0.42rem 0.85rem; font-size:0.84rem;" onclick="openDressDetail(${d.id})">
+                                    View &amp; Similar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+        }
+
+        function filterCategory(category, chipBtn) {
+            document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+            chipBtn.classList.add("active");
+            document.getElementById("searchInput").value = "";
+
+            if (category === "All") {
+                document.getElementById("catalogTitle").textContent = "Top Purchased Dresses";
+                displayedDresses = [...DRESSES];
+            } else {
+                document.getElementById("catalogTitle").textContent = `${category} Collection`;
+                displayedDresses = DRESSES.filter(d => d.category === category);
+            }
+            renderProducts(displayedDresses);
+        }
+
+        function sortProducts(mode) {
+            if (mode === "low") displayedDresses.sort((a, b) => a.price - b.price);
+            else if (mode === "high") displayedDresses.sort((a, b) => b.price - a.price);
+            else displayedDresses.sort((a, b) => b.sold - a.sold);
+            renderProducts(displayedDresses);
+        }
+
+        function handleSearch(query) {
+            navigate("homeView");
+            const q = query.toLowerCase().trim();
+            document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+
+            if (!q) {
+                document.getElementById("catalogTitle").textContent = "Top Purchased Dresses";
+                displayedDresses = [...DRESSES];
+                renderProducts(displayedDresses);
+                return;
+            }
+
+            document.getElementById("catalogTitle").textContent = `Search Results for "${query}"`;
+            displayedDresses = DRESSES.filter(d =>
+                d.name.toLowerCase().includes(q) ||
+                d.category.toLowerCase().includes(q) ||
+                d.fabric.toLowerCase().includes(q)
+            );
+            renderProducts(displayedDresses);
+        }
+
+        /* ================= DRESS DETAIL + REVIEWS + RELEVANT DRESSES ================= */
+        function openDressDetail(id) {
+            const dress = DRESSES.find(d => d.id === id);
+            selectedSize = "M";
+
+            document.getElementById("detailContainer").innerHTML = `
+                <div class="detail-layout">
+                    <div class="detail-visual" style="background:${dress.bg};">
+                        ${dress.icon}
+                    </div>
+                    <div>
+                        <span class="product-cat">${dress.category}</span>
+                        <h1 style="font-size:1.85rem; margin:0.3rem 0;">${dress.name}</h1>
+                        <div class="rating" style="font-size:0.95rem;">${dress.rating}</div>
+                        <div style="font-size:1.6rem; font-weight:800; color:var(--primary); margin:0.7rem 0;">
+                            ₹${dress.price.toLocaleString()}
+                        </div>
+                        <p style="color:var(--text-muted); margin-bottom:0.9rem;">${dress.desc}</p>
+                        <p style="font-size:0.92rem; margin-bottom:1rem;"><strong>Fabric:</strong> ${dress.fabric}</p>
+
+                        <div style="display:flex; justify-content:space-between; align-items:center; max-width:260px;">
+                            <label style="font-weight:700; font-size:0.9rem;">Select Size:</label>
+                            <button type="button" style="background:none; border:none; color:var(--primary); font-weight:600; cursor:pointer; text-decoration:underline; font-size:0.85rem;" onclick="openSizeGuide()">Size Chart</button>
+                        </div>
+                        <div class="size-selector">
+                            ${["XS", "S", "M", "L", "XL"].map(sz => `
+                                <button type="button" class="size-btn ${sz === 'M' ? 'selected' : ''}" onclick="pickSize('${sz}', this)">${sz}</button>
+                            `).join("")}
+                        </div>
+
+                        <div style="display:flex; gap:0.9rem; flex-wrap:wrap;">
+                            <button class="btn btn-primary" onclick="addToCart(${dress.id})">🛍️ Add to Cart</button>
+                            <button class="btn btn-buy" onclick="buyNowSingle(${dress.id})">⚡ Buy Now</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Render Verified Customer Reviews
+            document.getElementById("reviewSection").innerHTML = `
+                <h3 style="margin-bottom:0.8rem;">Verified Buyer Reviews</h3>
+                ${dress.reviews.map(r => `
+                    <div class="review-item">
+                        <strong>${r.user}</strong> <span style="color:var(--success); font-size:0.8rem;">✔ Verified Purchase</span>
+                        <p style="color:var(--text-muted); font-size:0.92rem; margin-top:0.2rem;">"${r.text}"</p>
+                    </div>
+                `).join("")}
+            `;
+
+            // Relevant Dresses from Same Category
+            const relevant = DRESSES.filter(d => d.category === dress.category && d.id !== dress.id);
+            renderProducts(relevant, "relevantGrid");
+            navigate("detailView");
+        }
+
+        function pickSize(sz, btn) {
+            selectedSize = sz;
+            document.querySelectorAll(".size-btn").forEach(b => b.classList.remove("selected"));
+            btn.classList.add("selected");
+        }
+
+        function openSizeGuide() { document.getElementById("sizeModal").style.display = "flex"; }
+        function closeSizeGuide() { document.getElementById("sizeModal").style.display = "none"; }
+
+        /* ================= CUSTOM TAILOR SUBMISSION ================= */
+        function submitCustomDress(e) {
+            e.preventDefault();
+            const style = document.getElementById("customStyle").value;
+            const fabric = document.getElementById("customFabric").value;
+            const priceMatch = style.match(/₹([\d,]+)/);
+            const price = priceMatch ? parseInt(priceMatch[1].replace(",", "")) : 2999;
+
+            cart.push({
+                id: Date.now(),
+                name: `Custom: ${style.split("(")[0].trim()}`,
+                category: "Custom Couture",
+                price: price,
+                icon: "✂️",
+                bg: "#fceee9",
+                size: "Custom Fit",
+                qty: 1
+            });
+            updateCartBadge();
+            showToast("Custom dress added to your Cart!");
+            navigate("cartView");
+        }
+
+        /* ================= WISHLIST & OFFERS ================= */
+        function toggleWishlist(id) {
+            if (wishlist.includes(id)) {
+                wishlist = wishlist.filter(item => item !== id);
+                showToast("Removed from Wishlist");
+            } else {
+                wishlist.push(id);
+                showToast("Saved to Wishlist ❤️");
+            }
+            document.getElementById("wishCount").textContent = wishlist.length;
+            renderProducts(displayedDresses);
+            if (document.getElementById("wishlistView").classList.contains("active")) renderWishlist();
+        }
+
+        function renderWishlist() {
+            const saved = DRESSES.filter(d => wishlist.includes(d.id));
+            renderProducts(saved, "wishlistGrid");
+        }
+
+        function copyCode(code) {
+            navigator.clipboard?.writeText(code);
+            showToast(`Copied promo code: ${code}`);
+        }
+
+        /* ================= CART & COUPON ENGINE ================= */
+        function addToCart(id) {
+            const dress = DRESSES.find(d => d.id === id);
+            const existing = cart.find(item => item.id === id && item.size === selectedSize);
+            if (existing) existing.qty += 1;
+            else cart.push({ ...dress, size: selectedSize, qty: 1 });
+
+            updateCartBadge();
+            showToast(`Added ${dress.name} (${selectedSize}) to Cart`);
+        }
+
+        function updateCartBadge() {
+            document.getElementById("cartCount").textContent = cart.reduce((sum, i) => sum + i.qty, 0);
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) cart.splice(index, 1);
+            updateCartBadge();
+            renderCart();
+        }
+
+        function applyCoupon() {
+            const input = document.getElementById("couponInput").value.trim().toUpperCase();
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+            if (input === "VELOURA20" && subtotal >= 2000) {
+                appliedDiscount = Math.round(subtotal * 0.20);
+                appliedCode = "VELOURA20";
+                showToast("20% Discount Applied!");
+            } else if (input === "WELCOME300") {
+                appliedDiscount = 300;
+                appliedCode = "WELCOME300";
+                showToast("₹300 Welcome Discount Applied!");
+            } else if (input === "ETHNIC15") {
+                appliedDiscount = Math.round(subtotal * 0.15);
+                appliedCode = "ETHNIC15";
+                showToast("15% Ethnic Discount Applied!");
+            } else {
+                appliedDiscount = 0;
+                appliedCode = "";
+                showToast("Invalid code or minimum order not met");
+            }
+            renderCart();
+        }
+
+        function renderCart() {
+            const container = document.getElementById("cartContent");
+            if (cart.length === 0) {
+                appliedDiscount = 0;
+                appliedCode = "";
+                container.innerHTML = `
+                    <div class="panel" style="text-align:center; padding:3rem;">
+                        <h3>Your cart is empty</h3>
+                        <p style="color:var(--text-muted); margin:0.6rem 0 1.4rem;">Explore our top purchased dresses or design a custom outfit.</p>
+                        <button class="btn btn-primary" onclick="navigate('homeView')">Browse Dresses</button>
+                    </div>
+                `;
+                return;
+            }
+
+            const subtotal = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+            const finalTotal = Math.max(0, subtotal - appliedDiscount);
+
+            container.innerHTML = `
+                <div class="two-col">
+                    <div class="panel">
+                        ${cart.map((item, idx) => `
+                            <div class="cart-item">
+                                <div style="display:flex; align-items:center; gap:1rem;">
+                                    <div style="font-size:2.3rem; background:${item.bg}; padding:0.55rem; border-radius:12px;">${item.icon}</div>
+                                    <div>
+                                        <strong>${item.name}</strong>
+                                        <div style="font-size:0.85rem; color:var(--text-muted);">Size: ${item.size} &bull; ₹${item.price.toLocaleString()}</div>
+                                    </div>
+                                </div>
+                                <div class="qty-controls">
+                                    <button class="qty-btn" onclick="changeQty(${idx}, -1)">-</button>
+                                    <strong>${item.qty}</strong>
+                                    <button class="qty-btn" onclick="changeQty(${idx}, 1)">+</button>
+                                </div>
+                            </div>
+                        `).join("")}
+                    </div>
+
+                    <div class="panel">
+                        <h3 style="margin-bottom:0.8rem;">Price Summary</h3>
+                        <div class="coupon-row">
+                            <input type="text" id="couponInput" placeholder="Promo code (e.g., VELOURA20)" value="${appliedCode}">
+                            <button class="btn btn-secondary" onclick="applyCoupon()">Apply</button>
+                        </div>
+                        <div class="summary-line"><span>Subtotal</span><span>₹${subtotal.toLocaleString()}</span></div>
+                        ${appliedDiscount > 0 ? `<div class="summary-line" style="color:var(--success);"><span>Discount (${appliedCode})</span><span>- ₹${appliedDiscount.toLocaleString()}</span></div>` : ""}
+                        <div class="summary-line"><span>Express Delivery</span><span style="color:var(--success); font-weight:600;">FREE</span></div>
+                        <div class="summary-total"><span>Total</span><span>₹${finalTotal.toLocaleString()}</span></div>
+                        <button class="btn btn-primary" style="width:100%;" onclick="proceedToBuyFromCart()">Proceed to Buy &rarr;</button>
+                    </div>
+                </div>
+            `;
+        }
+
+        /* ================= BUY & PAYMENT FLOW ================= */
+        function buyNowSingle(id) {
+            const dress = DRESSES.find(d => d.id === id);
+            checkoutItems = [{ ...dress, size: selectedSize, qty: 1 }];
+            appliedDiscount = 0;
+            openBuyPage();
+        }
+
+        function proceedToBuyFromCart() {
+            checkoutItems = [...cart];
+            openBuyPage();
+        }
+
+        function openBuyPage() {
+            const subtotal = checkoutItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+            const total = Math.max(0, subtotal - appliedDiscount);
+
+            const html = `
+                <h3 style="margin-bottom:1rem;">Order Summary (${checkoutItems.length} item${checkoutItems.length > 1 ? 's' : ''})</h3>
+                ${checkoutItems.map(i => `
+                    <div class="summary-line">
+                        <span>${i.name} (${i.size}) &times; ${i.qty}</span>
+                        <span>₹${(i.price * i.qty).toLocaleString()}</span>
+                    </div>
+                `).join("")}
+                ${appliedDiscount > 0 ? `<div class="summary-line" style="color:var(--success);"><span>Coupon Discount</span><span>- ₹${appliedDiscount.toLocaleString()}</span></div>` : ""}
+                <div class="summary-total"><span>Payable Amount</span><span>₹${total.toLocaleString()}</span></div>
+            `;
+            document.getElementById("buySummaryPanel").innerHTML = html;
+            document.getElementById("paymentSummaryPanel").innerHTML = html;
+            navigate("buyView");
+        }
+
+        function goToPayment(e) {
+            e.preventDefault();
+            shippingDetails = {
+                address: `${document.getElementById("shipAddress").value}, ${document.getElementById("shipCity").value} - ${document.getElementById("shipPin").value}`
+            };
+            navigate("paymentView");
+        }
+
+        function selectPayMethod(method, btn) {
+            selectedPayment = method;
+            document.querySelectorAll(".pay-tab").forEach(t => t.classList.remove("active"));
+            btn.classList.add("active");
+
+            const container = document.getElementById("payFields");
+            if (method === "UPI") {
+                container.innerHTML = `<div class="input-group"><label>Enter UPI ID</label><input type="text" placeholder="yourname@upi" required></div>`;
+            } else if (method === "Card") {
+                container.innerHTML = `
+                    <div class="input-group"><label>Card Number</label><input type="text" placeholder="XXXX XXXX XXXX XXXX" maxlength="19" required></div>
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                        <div class="input-group"><label>Expiry</label><input type="text" placeholder="MM/YY" required></div>
+                        <div class="input-group"><label>CVV</label><input type="password" placeholder="***" maxlength="3" required></div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `<p style="padding:1rem; background:var(--bg-tint); border-radius:10px; margin-bottom:1rem; font-size:0.92rem;">Pay via Cash or UPI QR on delivery to <strong>${shippingDetails.address}</strong>.</p>`;
+            }
+        }
+
+        function completePayment(e) {
+            e.preventDefault();
+            const newOrderId = "VLR-" + Math.floor(1000 + Math.random() * 9000);
+            const subtotal = checkoutItems.reduce((sum, i) => sum + i.price * i.qty, 0);
+            const total = Math.max(0, subtotal - appliedDiscount);
+            const summaryNames = checkoutItems.map(i => `${i.name} (${i.size} x${i.qty})`).join(", ");
+
+            orders.unshift({
+                id: newOrderId,
+                date: "17 Nov 2026",
+                items: summaryNames,
+                total: total,
+                statusStep: 1,
+                address: shippingDetails.address
+            });
+
+            if (checkoutItems.length === cart.length) {
+                cart = [];
+                appliedDiscount = 0;
+                appliedCode = "";
+                updateCartBadge();
+            }
+
+            showToast(`Order ${newOrderId} confirmed via ${selectedPayment}!`);
+            navigate("trackView");
+        }
+
+        /* ================= TRACK ORDER PAGE ================= */
+        function renderOrders(list = orders) {
+            const container = document.getElementById("ordersList");
+            if (list.length === 0) {
+                container.innerHTML = `<div class="panel">No orders found matching that Order ID.</div>`;
+                return;
+            }
+
+            const steps = ["Order Confirmed", "Tailoring & QC", "Out for Delivery", "Delivered"];
+
+            container.innerHTML = list.map(o => `
+                <div class="order-card">
+                    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.6rem;">
+                        <div>
+                            <strong style="font-size:1.1rem; color:var(--primary);">Order #${o.id}</strong>
+                            <span style="color:var(--text-muted); font-size:0.88rem;"> &bull; Placed on ${o.date}</span>
+                        </div>
+                        <strong style="font-size:1.1rem;">₹${o.total.toLocaleString()}</strong>
+                    </div>
+                    <p style="font-size:0.95rem; margin-bottom:0.3rem;"><strong>Items:</strong> ${o.items}</p>
+                    <p style="font-size:0.88rem; color:var(--text-muted);"><strong>Delivering to:</strong> ${o.address}</p>
+
+                    <div class="timeline">
+                        ${steps.map((label, i) => `
+                            <div class="step ${i + 1 <= o.statusStep ? 'done' : ''}">
+                                <div class="step-dot">${i + 1 <= o.statusStep ? '✓' : i + 1}</div>
+                                <div class="step-label">${label}</div>
+                            </div>
+                        `).join("")}
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        function filterOrders() {
+            const query = document.getElementById("trackSearchInput").value.trim().toUpperCase();
+            if (!query) return renderOrders();
+            renderOrders(orders.filter(o => o.id.includes(query)));
+        }
+    </script>
+</body>
+</html>
